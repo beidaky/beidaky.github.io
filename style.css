@@ -3,7 +3,14 @@ body {
     line-height: 1.6;
     margin: 0;
     padding: 20px;
-    background-color: #f4f4f4;
+    
+    /* 背景图片 */
+    background-image: url('background.gif');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    
     color: #333;
 }
 
