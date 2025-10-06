@@ -126,3 +126,8 @@ p {
         padding: 0 1rem;
     }
 }
+/* 通用激活样式 - 保留 */
+.nav-link.active {
+    color: #d834db;        /* 通用高亮颜色 */
+    font-weight: bold;     /* 粗体 */
+}
