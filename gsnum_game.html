@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>猜数字游戏 - 张煦的网站</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* 游戏专用样式 */
+        .game-container {
+            max-width: 600px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .game-input {
+            padding: 10px;
+            font-size: 1.2rem;
+            margin: 1rem 0;
+            width: 200px;
+        }
+        .game-button {
+            padding: 10px 20px;
+            font-size: 1.2rem;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .game-button:hover {
+            background: #2980b9;
+        }
+        .game-message {
+            margin: 1rem 0;
+            font-size: 1.2rem;
+            min-height: 30px;
+        }
+    </style>
+</head>
+<body>
+    <!-- 复用您现有的导航栏 -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="index.html">张煦的网站</a>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html">首页</a>
+                </li>
+                <li class="nav-item">
+                    <a href="game.html">猜数字游戏</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="game-container">
+        <h1>🎮 猜数字游戏</h1>
+        <p>我已经想好了一个 1-100 之间的数字，你能猜出来吗？</p>
+        
+        <input type="number" class="game-input" id="guessInput" placeholder="输入你的猜测" min="1" max="100">
+        <br>
+        <button class="game-button" onclick="checkGuess()">猜一下！</button>
+        
+        <div class="game-message" id="message"></div>
+        <div id="attempts">已尝试次数: 0</div>
+    </div>
+
+    <script>
+        // 游戏变量
+let randomNumber = Math.floor(Math.random() * 100) + 1;
+let attempts = 0;
+
+// 检查猜测的函数
+function checkGuess() {
+    // 获取用户输入
+    const userGuess = parseInt(document.getElementById('guessInput').value);
+    const messageElement = document.getElementById('message');
+    const attemptsElement = document.getElementById('attempts');
+    
+    // 验证输入
+    if (isNaN(userGuess) || userGuess < 1 || userGuess > 100) {
+        messageElement.textContent = "请输入 1-100 之间的有效数字！";
+        messageElement.style.color = "red";
+        return;
+    }
+    
+    // 增加尝试次数
+    attempts++;
+    attemptsElement.textContent = "已尝试次数: " + attempts;
+    
+    // 检查猜测结果
+    if (userGuess === randomNumber) {
+        messageElement.textContent = `🎉 恭喜！你猜对了！数字就是 ${randomNumber}，用了 ${attempts} 次尝试。`;
+        messageElement.style.color = "green";
+        disableGame();
+    } else if (userGuess < randomNumber) {
+        messageElement.textContent = "📈 太小了！再试一次。";
+        messageElement.style.color = "blue";
+    } else {
+        messageElement.textContent = "📉 太大了！再试一次。";
+        messageElement.style.color = "orange";
+    }
+    
+    // 清空输入框并聚焦
+    document.getElementById('guessInput').value = '';
+    document.getElementById('guessInput').focus();
+}
+
+// 游戏结束后禁用输入
+function disableGame() {
+    document.getElementById('guessInput').disabled = true;
+    document.querySelector('.game-button').disabled = true;
+}
+
+// 按回车键也可以提交猜测
+document.getElementById('guessInput').addEventListener('keypress', function(event) {
+    if (event.key === 'Enter') {
+        checkGuess();
+    }
+});
+    </script>
+</body>
+</html>
