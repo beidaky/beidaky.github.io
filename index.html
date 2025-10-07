@@ -12,6 +12,7 @@
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
     <link rel="manifest" href="site.webmanifest">
 </head>
+
 <body>
     <!-- 导航栏 -->
 <nav class="navbar">
@@ -55,6 +56,84 @@
                 <p>这个导航栏和图片是我刚刚学会制作的。</p>
             </div>
         </div>
-    </main>
+    </main>  <!-- 您原有的内容结束 -->
+
+    <!-- 留言板区域 -->
+    <section class="message-board">
+        <div class="message-container">
+            <h2>📝 留言板</h2>
+            <p>留下您的感受、心情或任何想说的话...</p>
+            
+            <!-- 留言输入区 -->
+            <div class="message-input">
+                <textarea id="messageText" placeholder="写下您的留言..."></textarea>
+                <button onclick="addMessage()">发布留言</button>
+            </div>
+            
+            <!-- 留言展示区 -->
+            <div class="messages-list" id="messagesList">
+                <!-- 留言将动态显示在这里 -->
+            </div>
+        </div>
+    </section>
+
+    <!-- JavaScript 代码 -->
+    <script>
+    // 获取或初始化留言列表
+    function getMessages() {
+        const messages = localStorage.getItem('guestbookMessages');
+        return messages ? JSON.parse(messages) : [];
+    }
+
+    // 保存留言
+    function saveMessages(messages) {
+        localStorage.setItem('guestbookMessages', JSON.stringify(messages));
+    }
+
+    // 添加新留言
+    function addMessage() {
+        const messageText = document.getElementById('messageText').value.trim();
+        
+        if (!messageText) {
+            alert('请输入留言内容！');
+            return;
+        }
+        
+        const messages = getMessages();
+        const newMessage = {
+            content: messageText,
+            timestamp: new Date().toLocaleString('zh-CN'),
+            id: Date.now()
+        };
+        
+        messages.unshift(newMessage);
+        saveMessages(messages);
+        displayMessages();
+        
+        document.getElementById('messageText').value = '';
+    }
+
+    // 显示所有留言
+    function displayMessages() {
+        const messagesList = document.getElementById('messagesList');
+        const messages = getMessages();
+        
+        if (messages.length === 0) {
+            messagesList.innerHTML = '<p style="text-align: center; color: #666;">还没有留言，快来写下第一条吧！</p>';
+            return;
+        }
+        
+        messagesList.innerHTML = messages.map(message => `
+            <div class="message-item">
+                <div class="message-time">📅 ${message.timestamp}</div>
+                <div class="message-content">${message.content}</div>
+            </div>
+        `).join('');
+    }
+
+    // 页面加载时显示留言
+    document.addEventListener('DOMContentLoaded', displayMessages);
+    </script>
+
 </body>
 </html>
