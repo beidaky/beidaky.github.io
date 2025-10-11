@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Apple</title>  <!-- 建议改回您的网站名称 -->
+    <title>Apple-此为测试网站</title>  <!-- 建议改回您的网站名称 -->
     <link rel="stylesheet" href="style.css">
     <!-- 在这里添加图标链接 -->
     <link rel="icon" type="image/x-icon" href="favicon.ico">
@@ -18,7 +18,7 @@
 <nav class="navbar">
     <div class="nav-container">
         <div class="nav-logo">
-            <a href="index.html">张煦的网站</a>  <!-- 修改：链接到首页 -->
+            <a href="index.html">张煦的网站-此为测试网站</a>  <!-- 修改：链接到首页 -->
         </div>
         <ul class="nav-menu">
             <li class="nav-item">
@@ -58,82 +58,34 @@
         </div>
     </main>  <!-- 您原有的内容结束 -->
 
+    
     <!-- 留言板区域 -->
-    <section class="message-board">
-        <div class="message-container">
-            <h2>📝 留言板</h2>
-            <p>留下您的感受、心情或任何想说的话...</p>
-            
-            <!-- 留言输入区 -->
-            <div class="message-input">
-                <textarea id="messageText" placeholder="写下您的留言..."></textarea>
-                <button onclick="addMessage()">发布留言</button>
-            </div>
-            
-            <!-- 留言展示区 -->
-            <div class="messages-list" id="messagesList">
-                <!-- 留言将动态显示在这里 -->
-            </div>
+<section class="message-board">
+    <div class="message-container">
+        <h2>📝 留言板</h2>
+        <p>留下您的感受、心情或任何想说的话...</p>
+        
+        <!-- 留言输入区 -->
+        <div class="message-input">
+            <textarea id="messageText" placeholder="写下您的留言..."></textarea>
+            <button id="publishBtn">发布留言</button>
         </div>
-    </section>
-
-    <!-- JavaScript 代码 -->
-    <script>
-    // 获取或初始化留言列表
-    function getMessages() {
-        const messages = localStorage.getItem('guestbookMessages');
-        return messages ? JSON.parse(messages) : [];
-    }
-
-    // 保存留言
-    function saveMessages(messages) {
-        localStorage.setItem('guestbookMessages', JSON.stringify(messages));
-    }
-
-    // 添加新留言
-    function addMessage() {
-        const messageText = document.getElementById('messageText').value.trim();
         
-        if (!messageText) {
-            alert('请输入留言内容！');
-            return;
-        }
-        
-        const messages = getMessages();
-        const newMessage = {
-            content: messageText,
-            timestamp: new Date().toLocaleString('zh-CN'),
-            id: Date.now()
-        };
-        
-        messages.unshift(newMessage);
-        saveMessages(messages);
-        displayMessages();
-        
-        document.getElementById('messageText').value = '';
-    }
+        <!-- 留言展示区 -->
+        <div class="messages-list" id="commentsContainer">
+            <!-- 评论将通过JavaScript动态显示在这里 -->
+        </div>
+    </div>
+</section>
 
-    // 显示所有留言
-    function displayMessages() {
-        const messagesList = document.getElementById('messagesList');
-        const messages = getMessages();
-        
-        if (messages.length === 0) {
-            messagesList.innerHTML = '<p style="text-align: center; color: #666;">还没有留言，快来写下第一条吧！</p>';
-            return;
-        }
-        
-        messagesList.innerHTML = messages.map(message => `
-            <div class="message-item">
-                <div class="message-time">📅 ${message.timestamp}</div>
-                <div class="message-content">${message.content}</div>
-            </div>
-        `).join('');
-    }
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>
 
-    // 页面加载时显示留言
-    document.addEventListener('DOMContentLoaded', displayMessages);
-    </script>
+<!-- 自定义JS文件 -->
+<script src="firebase-comments.js"></script>
 
+    
 </body>
 </html>
